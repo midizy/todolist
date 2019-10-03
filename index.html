@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Press+Start+2P">
+    <link href="https://unpkg.com/nes.css@2.2.1/css/nes.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="todo.css">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>checklist </title>
+    <script src="vue.js"></script> 
+  </head>
+  <body>
+      
+    <div id="app">
+        <h1>{{ title }}</h1>
+        <input type="text" class="nes-input" placeholder="Add..." v-on:keyup.enter="addTodo">
+        <ul>
+            <li v-for="todo in todos" class="flex">
+                <label>
+                    <input type="checkbox" class="nes-checkbox" v-model="todo.done">
+                  <span>&nbsp</span>
+                </label> 
+                <del v-if="todo.done">{{ todo.text }}</del>
+                <span v-else>{{ todo.text }}</span>
+                <div class="space"></div>
+                <button class="nes-btn is-error padding" v-on:click="removeTodo(todo.id)">X</button>
+              </li>
+            </ul>
+          
+      </div>
+<script>
+new Vue({
+  el: "#app",
+  data: {
+    title: 'TO-DO LIST',
+    todos: [
+    {text: 'todo 1', done: false, id: Date.now()}, 
+    {text: 'todo 2', done: true, id: Date.now() + 1}
+    ]
+  },
+  methods: {
+  	addTodo(event) {
+      const text = event.target.value
+      this.todos.push({text, done: false, id: Date.now()})
+      event.target.value = ''
+    }, 
+    removeTodo(id) {
+  this.todos = this.todos.filter(todo => todo.id !== id)
+}, 
+check(todo){
+  todo.done = !todo.done
+}
+  }
+})
+</script>
+  </body>
+</html>
